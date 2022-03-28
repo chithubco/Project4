@@ -6,10 +6,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.echithub.project4.MainActivity
+import com.echithub.project4.DetailActivity
 import com.echithub.project4.R
 
 class NotificationsHelper(val context: Context) {
@@ -19,9 +20,10 @@ class NotificationsHelper(val context: Context) {
     fun createNotification() {
         createNotificationChannel()
         // Create an Intent
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = Intent(context, DetailActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+        intent.putExtra("download_url","glide")
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val icon = BitmapFactory.decodeResource(context.resources, R.drawable.download_icon)
@@ -53,6 +55,10 @@ class NotificationsHelper(val context: Context) {
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
+            channel.enableLights(true)
+            channel.lightColor = Color.RED
+            channel.enableVibration(true)
+
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)

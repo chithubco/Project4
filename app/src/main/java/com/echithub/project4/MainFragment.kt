@@ -5,14 +5,13 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.*
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.echithub.project4.databinding.FragmentMainBinding
-import com.echithub.project4.utils.ButtonState
-import com.echithub.project4.utils.FILE_NAME
-import com.echithub.project4.utils.NotificationsHelper
-import com.echithub.project4.utils.URL_UDACITY
+import com.echithub.project4.utils.*
 
 
 class MainFragment : Fragment() {
@@ -21,6 +20,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var downloadStarted = false
+    private var downloadLink: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +31,16 @@ class MainFragment : Fragment() {
 
         binding.btnDownload.setOnClickListener {
 
-            download(URL_UDACITY, FILE_NAME)
-            NotificationsHelper(requireContext()).createNotification()
+            download(downloadLink, FILE_NAME)
+        }
+
+        binding.rgSelectDownloadSource.setOnCheckedChangeListener { group, checkedId ->
+            downloadLink = when(checkedId){
+                R.id.rb_glide -> URL_GLIDE
+                R.id.rb_udacity -> URL_UDACITY
+                R.id.rb_retrofit -> URL_RETROFIT
+                else -> URL_RETROFIT
+            }
         }
         setHasOptionsMenu(true)
         return binding.root
@@ -40,7 +48,12 @@ class MainFragment : Fragment() {
 
     private fun download(url: String,fileName: String) {
         downloadStarted = true
-        (activity as MainActivity).download(Uri.parse(url),fileName) // Download activity in Main actitivty
+        if (downloadLink.isNullOrEmpty() or  downloadLink.isNullOrBlank()){
+            Toast.makeText(context,"Please Select a Download File",Toast.LENGTH_LONG).show()
+        }else{
+            (activity as MainActivity).download(Uri.parse(url),fileName) // Download activity in Main actitivty
+        }
+
     }
 
     fun onPermissionResult(permissionGranted: Boolean){
@@ -54,5 +67,6 @@ class MainFragment : Fragment() {
 
         inflater?.inflate(R.menu.menu_main,menu)
     }
+
 
 }

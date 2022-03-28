@@ -2,6 +2,10 @@ package com.echithub.project4
 
 import android.Manifest
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -12,11 +16,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.echithub.project4.utils.NotificationsHelper
 import com.echithub.project4.utils.PERMISSION_WRITE_EXTENAL_STORAGE
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         checkDownloadPermission()
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+
         val navController = this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
@@ -37,7 +45,16 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp()
     }
 
-    fun checkDownloadPermission() {
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            Log.i("Download ID ",id.toString())
+            NotificationsHelper(this@MainActivity).createNotification() // Send Notification
+
+        }
+    }
+
+    private fun checkDownloadPermission() {
         if (ContextCompat.checkSelfPermission
                 (this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED
@@ -69,13 +86,6 @@ class MainActivity : AppCompatActivity() {
 //                notifyMainFragmentPermissionGranted(true)
         }
     }
-
-//    private fun notifyMainFragmentPermissionGranted(permissionGranted: Boolean) {
-//        val activeFragment = supportFragmentManager.findFragmentById(R.id.mainFragment) as MainFragment
-//        if (activeFragment is MainFragment){
-//            (activeFragment as MainFragment).onPermissionResult(permissionGranted)
-//        }
-//    }
 
     private fun requestExternalStoragePermission() {
         ActivityCompat.requestPermissions(
