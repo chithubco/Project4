@@ -17,4 +17,8 @@
     <string name="button_loading">We are loading </string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="back_to_main_screen">Back to Main Screen</string>
+
+    <string name="download_off">1</string>
+    <string name="downloading">2</string>
+    <string name="download_completed">3</string>
 </resources>

@@ -13,6 +13,7 @@
         android:layout_height="300dp"
         android:src="@drawable/download_2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,13 +46,25 @@
 
     </RadioGroup>
 
-    <Button
+<!--    <Button-->
+<!--        android:id="@+id/btn_download"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:text="Download"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <com.echithub.project4.ui.LoadingButton
         android:id="@+id/btn_download"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_margin="16dp"
         android:text="Download"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

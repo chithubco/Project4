@@ -13,9 +13,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.echithub.project4.DetailActivity
 import com.echithub.project4.R
 
-class NotificationsHelper(val context: Context) {
-
-
+class NotificationsHelper(private val context: Context) {
 
     fun createNotification() {
         createNotificationChannel()
@@ -24,7 +22,7 @@ class NotificationsHelper(val context: Context) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         intent.putExtra("download_url","glide")
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+        val pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val icon = BitmapFactory.decodeResource(context.resources, R.drawable.download_icon)
 
@@ -40,6 +38,8 @@ class NotificationsHelper(val context: Context) {
                     .bigLargeIcon(null)
             )
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
 
