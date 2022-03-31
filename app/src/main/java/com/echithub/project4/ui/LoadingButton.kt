@@ -59,7 +59,7 @@ class LoadingButton @JvmOverloads constructor(
             for (x in 2..660){
                 computeBarPosition(downloadStatus, width)
                 invalidate()
-                onSizeChanged(width,height,width,height)
+//                onSizeChanged(width,height,width,height)
             }
             return true
         }
@@ -69,9 +69,9 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawBitmap(extraBitmap, 0f, 0f, null)
-        canvas.drawRect(frame, paint)
-        canvas.drawText(buttonText, 320F,80F,textPaint)
+//        canvas.drawBitmap(extraBitmap, 0f, 0f, null)
+//        canvas.drawRect(frame, paint)
+//        canvas.drawText(buttonText, 320F,80F,textPaint)
     }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {

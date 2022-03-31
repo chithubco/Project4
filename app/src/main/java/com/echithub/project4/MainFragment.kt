@@ -1,13 +1,18 @@
 package com.echithub.project4
 
+
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
+
 import android.view.*
-import android.widget.RadioButton
+
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.echithub.project4.databinding.FragmentMainBinding
@@ -28,9 +33,9 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentMainBinding.inflate(inflater, container,false)
-
+        setupBroadcastReceiver()
         binding.btnDownload.setOnClickListener {
-
+            binding.btnDownload.text = "DOWNLOAD IN PROGRESS...."
             download(downloadLink, FILE_NAME)
         }
 
@@ -43,6 +48,7 @@ class MainFragment : Fragment() {
             }
         }
         setHasOptionsMenu(true)
+
         return binding.root
     }
 
@@ -66,6 +72,18 @@ class MainFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater?.inflate(R.menu.menu_main,menu)
+    }
+
+    private fun setupBroadcastReceiver(){
+        val br = object : BroadcastReceiver(){
+            override fun onReceive(context: Context?, intent: Intent?) {
+                Log.i("Fragment Receiver",intent.toString())
+
+                binding.btnDownload.text = "DOWNLOAD COMPETED"
+                binding.btnDownload.setBackgroundColor(Color.GREEN)
+            }
+        }
+        context?.registerReceiver(br, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
 

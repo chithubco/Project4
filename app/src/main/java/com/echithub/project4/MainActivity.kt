@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
     private var downloadID: Long = 0
+    private var downloadUrl: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +48,16 @@ class MainActivity : AppCompatActivity() {
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            Log.i("Download ID ",id.toString())
-            NotificationsHelper(this@MainActivity).createNotification() // Send Notification
+
+            if (id == null || id == 0L){
+                NotificationsHelper(this@MainActivity).createNotification(downloadUrl,"Error") // Send Notification
+            }else{
+                NotificationsHelper(this@MainActivity).createNotification(downloadUrl,"Success") // Send Notification
+            }
+
+            // Download Completed Button details can be changed
 
         }
     }
@@ -116,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun download(uri: Uri, outputFileName: String) {
-
+        downloadUrl = uri.toString()
         val downloadRequest = DownloadManager.Request(uri)
             .setTitle("Downloading Something")
             .setDescription("Interesting Download $outputFileName")
