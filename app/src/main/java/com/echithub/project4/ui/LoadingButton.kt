@@ -71,7 +71,7 @@ class LoadingButton @JvmOverloads constructor(
         super.onDraw(canvas)
 //        canvas.drawBitmap(extraBitmap, 0f, 0f, null)
 //        canvas.drawRect(frame, paint)
-//        canvas.drawText(buttonText, 320F,80F,textPaint)
+        canvas.drawText(buttonText, 320F,80F,textPaint)
     }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
@@ -100,7 +100,7 @@ class LoadingButton @JvmOverloads constructor(
         }else if (pos == DownloadState.COMPLETED){
             barWidth = width
             downloadStatus = DownloadState.COMPLETED
-            buttonText = "Completed"
+            buttonText = ""
         }
     }
 }

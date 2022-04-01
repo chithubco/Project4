@@ -18,7 +18,9 @@ import android.view.*
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.echithub.project4.databinding.FragmentMainBinding
+import com.echithub.project4.ui.MainViewModel
 import com.echithub.project4.utils.*
 
 
@@ -26,6 +28,8 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var mMainViewModel: MainViewModel
 
     private var downloadStarted = false
     private var downloadLink: String = ""
@@ -55,6 +59,21 @@ class MainFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        mMainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // Create the download state listener
+        mMainViewModel.downloadState.observe(viewLifecycleOwner) { dState ->
+            dState?.let {
+                if (dState) {
+                    binding.btnDownload.isEnabled = false
+                }
+            }
+        }
     }
 
     private fun runAnimation(){
@@ -111,6 +130,7 @@ class MainFragment : Fragment() {
                 downloadCompleted = true
                 binding.btnDownload.text = "DOWNLOAD COMPETED"
                 binding.btnDownload.setBackgroundColor(Color.GREEN)
+                mMainViewModel.downloadState.value = true // Disable button when download is completed
             }
         }
         context?.registerReceiver(br, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
