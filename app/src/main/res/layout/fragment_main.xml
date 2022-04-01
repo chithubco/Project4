@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rg_select_download_source"
+        android:contentDescription="Radio for selection of download source"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
@@ -28,18 +29,21 @@
         <RadioButton
             android:id="@+id/rb_glide"
             android:layout_width="wrap_content"
+            android:contentDescription="option download glid"
             android:layout_height="wrap_content"
             android:text="Glide : Image download library by BumpTech" />
 
         <RadioButton
             android:id="@+id/rb_udacity"
             android:layout_width="match_parent"
+            android:contentDescription="option download Udacity Repo"
             android:layout_height="wrap_content"
             android:text="LoadApp - Current Repository by Udacity" />
 
         <RadioButton
             android:id="@+id/rb_retrofit"
             android:layout_width="match_parent"
+            android:contentDescription="option download retrofit"
             android:layout_height="wrap_content"
             android:text="Retrofit - Type-safe HTTP client for android and Java by Sqare, Inc" />
 
@@ -66,6 +70,7 @@
         android:background="@color/design_default_color_primary"
         android:gravity="center"
         android:padding="16dp"
+        android:contentDescription="Button to start download"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
